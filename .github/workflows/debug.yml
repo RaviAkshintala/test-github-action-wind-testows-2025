@@ -16,7 +16,7 @@ on:
 
 jobs:
   upload-setup-artifact:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1.3

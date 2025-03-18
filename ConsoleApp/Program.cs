@@ -1,12 +1,19 @@
 using CommandLine;
 using ConsoleApp;
 
-var arguments = Parser.Default.ParseArguments<ProgramArgumentsReadDto>(args)?.Value;
-if (arguments == null)
+class Program
 {
-    throw new Exception("[DEV] could not parse arguments");
+    static void Main(string[] args)
+    {
+        var arguments = Parser.Default.ParseArguments<ProgramArgumentsReadDto>(args).Value;
+        if (arguments == null)
+        {
+            throw new Exception("[DEV] Could not parse arguments.");
+        }
+
+        Console.WriteLine($"Flavor: {arguments.Flavor}");
+        Console.WriteLine($"Environment: {arguments.Environment}");
+        Console.WriteLine($"Version: {arguments.Version}");
+    }
 }
 
-Console.WriteLine($"flavor: {arguments.Flavor}");
-Console.WriteLine($"environment: {arguments.Environment}");
-Console.WriteLine($"version: {arguments.Version}");

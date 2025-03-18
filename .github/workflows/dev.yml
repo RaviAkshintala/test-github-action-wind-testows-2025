@@ -2,54 +2,29 @@ name: Showcase problem with windows-2025 image
 on:
   push:
   pull_request:
+  
   workflow_dispatch:
     inputs:
-      flavor:
-        description: 'Flavor of the artifact'
-        required: true
-        default: 'chocolate'
       environment:
-        description: 'Environment (staging/production)'
+        description: 'Environment: whether the final installed artifact should point to staging or production apis, and whether the final artifact should be uploaded to staging or production backoffice'
         required: true
-        default: 'staging'
+      flavor:
+        description: 'Flavor: which flavor of the artifact should be created by the setup'
+        required: true
       version:
-        description: 'Version number'
+        description: 'Version: the sem-ver of the artifact. Will also be appended to the setup filename'
         required: true
-        default: '1.0.0'
+        type: string
 
 jobs:
   upload-setup-artifact:
     runs-on: windows-2025
     steps:
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1.3
-
+        uses: microsoft/setup-msbuild@v1.1
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
-
       - name: Build
         run: dotnet build
-
-      - name: Debug Inputs (Check if inputs are being passed correctly)
-        run: |
-          echo "flavor: ${{ github.event.inputs.flavor }}"
-          echo "environment: ${{ github.event.inputs.environment }}"
-          echo "version: ${{ github.event.inputs.version }}"
-
-      - name: Set environment variables from inputs
-        run: |
-          echo "Setting environment variables"
-          echo "flavor=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
-          echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-
-      - name: Debug - Check if environment variables are set
-        run: |
-          echo "flavor: ${{ env.flavor }}"
-          echo "environment: ${{ env.environment }}"
-          echo "version: ${{ env.version }}"
-
-      - name: Run - Read args from command line and print them
-        run: |
-          echo "Running dotnet app with args:"
-          dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "${{ env.flavor }}" --environment "${{ env.environment }}" --version "${{ env.version }}"
+      - name: Run - read args from command line and print them
+        run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "chocolate" --environment "staging" --version "1.0.0"

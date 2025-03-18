@@ -26,12 +26,12 @@ jobs:
       - name: Build
         run: dotnet build
       - name: Run - read args from command line and print them
-        shell: pwsh
+        shell: bash
         run: |
-          $env:FLAVOR="${{ github.event.inputs.flavor }}"
-          $env:ENVIRONMENT="${{ github.event.inputs.environment }}"
-          $env:VERSION="${{ github.event.inputs.version }}"
-          echo "FLAVOR=$env:FLAVOR"
-          echo "ENVIRONMENT=$env:ENVIRONMENT"
-          echo "VERSION=$env:VERSION"
-          dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "$env:FLAVOR" --environment "$env:ENVIRONMENT" --version "$env:VERSION"
+          export FLAVOR="${{ github.event.inputs.flavor }}"
+          export ENVIRONMENT="${{ github.event.inputs.environment }}"
+          export VERSION="${{ github.event.inputs.version }}"
+          echo "FLAVOR=$FLAVOR"
+          echo "ENVIRONMENT=$ENVIRONMENT"
+          echo "VERSION=$VERSION"
+          dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "$FLAVOR" --environment "$ENVIRONMENT" --version "$VERSION"

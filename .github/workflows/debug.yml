@@ -20,7 +20,7 @@ on:
 
 jobs:
   upload-setup-artifact:
-    runs-on: windows-2019
+    runs-on: windows-2025
     steps:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -28,13 +28,11 @@ jobs:
         uses: actions/checkout@v3.5.2
       - name: Build
         run: dotnet build
-      - name: Run application
+      - name: Run .NET application
         run: |
-              dotnet run --project ./ConsoleApp/ConsoleApp.csproj \
-              --flavor "${{ inputs.flavor }}" \
-              --environment "${{ inputs.environment }}" \
-              --version "${{ inputs.version }}"
-        env:
-            flavor: "flowers"
-            environment: "staging"
-            version: "0.0.0"
+            dotnet run --project ./ConsoleApp/ConsoleApp.csproj --flavor="${{ inputs.flavor }}" --environment="${{ inputs.environment }}" --version="${{ inputs.version }}"
+            env:
+                flavor: "flowers"
+                environment: "staging"
+                version: "0.0.0"
+

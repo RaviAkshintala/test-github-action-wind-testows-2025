@@ -2,7 +2,7 @@ name: Showcase problem with windows-2025 image
 
 on:
   workflow_dispatch:
-    inputs:
+     inputs:
       flavor:
         description: 'Flavor of the artifact'
         required: true

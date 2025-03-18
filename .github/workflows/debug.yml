@@ -1,3 +1,4 @@
+
 name: Showcase problem with windows-2025 image
 
 on:
@@ -19,14 +20,10 @@ jobs:
     runs-on: windows-2025
     steps:
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1.3
+        uses: microsoft/setup-msbuild@v1.1
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
       - name: Build
         run: dotnet build
       - name: Run - read args from command line and print them
-        run: |
-          echo "flavor=${{inputs.flavor}}" >> $GITHUB_ENV
-          echo "environment=${{inputs.environment}}" >> $GITHUB_ENV
-          echo "version=${{inputs.version}}" >> $GITHUB_ENV
-          dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor ${{env.flavor}} --environment ${{env.environment}} --version ${{env.version}}
+        run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj --flavor="${{inputs.flavor}}" --environment="${{inputs.environment}}" --version="${{inputs.version}}"

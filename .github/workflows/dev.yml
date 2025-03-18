@@ -1,6 +1,8 @@
 name: Showcase problem with windows-2025 image
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
      inputs:
       flavor:

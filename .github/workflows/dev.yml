@@ -30,13 +30,20 @@ jobs:
       - name: Build
         run: dotnet build
 
+      - name: Debug Inputs (Check if inputs are being passed correctly)
+        run: |
+          echo "flavor: ${{ github.event.inputs.flavor }}"
+          echo "environment: ${{ github.event.inputs.environment }}"
+          echo "version: ${{ github.event.inputs.version }}"
+
       - name: Set environment variables from inputs
         run: |
+          echo "Setting environment variables"
           echo "flavor=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
           echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
           echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
-      - name: Debug - Print environment variables
+      - name: Debug - Check if environment variables are set
         run: |
           echo "flavor: ${{ env.flavor }}"
           echo "environment: ${{ env.environment }}"

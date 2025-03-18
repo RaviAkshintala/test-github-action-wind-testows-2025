@@ -31,4 +31,8 @@ jobs:
       - name: Build
         run: dotnet build
       - name: Run - read args from command line and print them
+        env:
+          FLAVOR: ${{ github.event.inputs.flavor }}
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+          VERSION: ${{ github.event.inputs.version }}
         run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "$FLAVOR" --environment "$ENVIRONMENT" --version "$VERSION"

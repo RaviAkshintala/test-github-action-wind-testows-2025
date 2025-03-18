@@ -1,6 +1,20 @@
 name: Showcase problem with windows-2025 image
 
-on: [push,pull_request]
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: 'Flavor of the artifact'
+        required: true
+        default: 'chocolate'
+      environment:
+        description: 'Environment (staging/production)'
+        required: true
+        default: 'staging'
+      version:
+        description: 'Version number'
+        required: true
+        default: '1.0.0'
 
 jobs:
   upload-setup-artifact:
@@ -15,11 +29,11 @@ jobs:
       - name: Build
         run: dotnet build
 
-      - name: Set environment variables
+      - name: Set environment variables from inputs
         run: |
-          echo "flavor=${{secrets.flavor}}" >> $GITHUB_ENV
-          echo "environment=${{secrets.environment}}" >> $GITHUB_ENV
-          echo "version=${{secrets.version}}" >> $GITHUB_ENV
+          echo "flavor=${{github.event.inputs.flavor}}" >> $GITHUB_ENV
+          echo "environment=${{github.event.inputs.environment}}" >> $GITHUB_ENV
+          echo "version=${{github.event.inputs.version}}" >> $GITHUB_ENV
 
       - name: Debug - Print environment variables
         run: |
@@ -29,5 +43,4 @@ jobs:
 
       - name: Run - Read args from command line and print them
         run: |
-          # Run dotnet application with passed arguments
           dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "${{env.flavor}}" --environment "${{env.environment}}" --version "${{env.version}}"

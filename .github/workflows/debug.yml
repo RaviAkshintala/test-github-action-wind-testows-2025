@@ -29,10 +29,6 @@ jobs:
       - name: Build
         run: dotnet build
       - name: Run .NET application
-        run: |
-            dotnet run --project ./ConsoleApp/ConsoleApp.csproj --flavor="${{ inputs.flavor }}" --environment="${{ inputs.environment }}" --version="${{ inputs.version }}"
-            env:
-                flavor: "flowers"
-                environment: "staging"
-                version: "0.0.0"
+        run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj --flavor="${{inputs.flavor}}" --environment="${{inputs.environment}}" --version="${{inputs.version}}"
+
 

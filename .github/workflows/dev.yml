@@ -1,4 +1,3 @@
-name: Showcase problem with windows-2025 image
 on:
   push:
   pull_request:
@@ -24,7 +23,12 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
+      - name: Set environment variables
+        run: |
+          echo "FLAVOR=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
       - name: Build
         run: dotnet build
       - name: Run - read args from command line and print them
-        run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "chocolate" --environment "staging" --version "1.0.0"
+        run: dotnet run --project .\ConsoleApp\ConsoleApp.csproj -- --flavor "$FLAVOR" --environment "$ENVIRONMENT" --version "$VERSION"
